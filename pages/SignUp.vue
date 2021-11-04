@@ -43,14 +43,18 @@ export default {
     }
     },
   methods: {
-    login() {
+    login(event) {
+       event.preventDefault();
       this.$fire.auth.createUserWithEmailAndPassword(this.auth.email, this.auth.password)
-      .catch(function (error){
-        console.log(error)
-      }).then((user) => {
+      .then((user) => {
+        console.log(user);
         console.log("signed up")
         //we are signed in
-       
+        window.location.href ="/";
+      })
+      .catch(function (error){
+        console.log(error.message);
+        return ;
       })
     },
 

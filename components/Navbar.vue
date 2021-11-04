@@ -7,7 +7,7 @@
         <b-navbar-nav >
           <div v-if="this.$store.state.Auth.user">
           <nuxt-link to="/">All Products</nuxt-link>
-          <nuxt-link to="/add-product">Add product</nuxt-link>
+          <nuxt-link to="/add-product" v-if="this.$store.state.Auth.user.claims.admin">Add product</nuxt-link>
           <nuxt-link to="/Cart">
             <b-icon icon="cart"></b-icon> Cart ({{ this.$store.state.Cart.cartproducts.length }})
           </nuxt-link>
@@ -34,7 +34,7 @@
 export default {
   methods:{
     logout(){
-      this.$fire.auth.signOut;
+      this.$fire.auth.signOut();
       //console.log("done");
       this.$store.commit("Auth/SET_USER",null);
     }

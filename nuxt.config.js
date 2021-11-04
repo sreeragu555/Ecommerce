@@ -43,10 +43,10 @@ export default {
     'bootstrap-vue/nuxt',
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    
+
   ],
 
-  firebase:{
+  firebase: {
     config: {
       apiKey: "AIzaSyD6joDbmBU5hMWkqQc0nvDUddUVVodxXVM",
       authDomain: "next-976fc.firebaseapp.com",
@@ -58,17 +58,22 @@ export default {
     },
     services: {
       firestore: true,
-      storage:true,
-       auth: {
-              persistence: 'local', // default
-              initialize: {
-                onAuthStateChangedAction: 'Auth/onAuthStateChangedAction',
-                onAuthStateChangedMutation: 'Auth/SET_USER',
-                subscribeManually: false
-              },
-              ssr: false,
-            }
+      storage: true,
+      auth: {
+        persistence: 'local', // default
+        initialize: {
+          onAuthStateChangedAction: 'Auth/onAuthStateChangedAction',
+          onAuthStateChangedMutation: 'Auth/SET_USER',
+          subscribeManually: false
+        },
+        ssr: false,
+      },
+      functions: {
+        location: 'us-central1',
+        emulatorPort: 12345,
+        emulatorHost: 'http://10.10.10.3',
       }
+    }
   },
   bootstrapVue: {
     icons: true

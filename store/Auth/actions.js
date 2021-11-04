@@ -10,6 +10,7 @@ export default {
       })
     } else {
       const { uid, email } = authUser
+      //console.log(claims);
       state.commit('SET_USER', {
         uid,
         email,

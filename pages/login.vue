@@ -50,14 +50,15 @@ export default {
       event.preventDefault();
      // console.log("in")
       this.$fire.auth.signInWithEmailAndPassword(this.auth.email, this.auth.password)
+      .then((users) => {
+        //we are signed in
+      //  console.log(users)
+      //  //const {uid,email} = users.user;
+      //   //this.$store.commit("Auth/SET_USER",{uid,email});
+        this.$router.push({path: "/"})
+      })
       .catch(function (error){
         console.log(error.message);
-      }).then((users) => {
-        //we are signed in
-       //console.log(user)
-       const {uid,email} = users.user;
-        this.$store.commit("Auth/SET_USER",{uid,email});
-         $nuxt.$router.push('/')
       })
     },
 
