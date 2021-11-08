@@ -11,11 +11,21 @@ export default {
     } else {
       const { uid, email } = authUser
       //console.log(claims);
-      state.commit('SET_USER', {
-        uid,
-        email,
-        claims
-      })
+      
+      await this.$fire.firestore.collection('Users').where("uid","==",uid).get().then(snapshot => {
+        snapshot.forEach(prod => {
+          state.commit('SET_USER', {
+            uid,
+            email,
+            claims,
+            Name:prod.data().Name,
+            Phone:prod.data().Phone
+          })   
+          
+        })
+      });
+      //console.log(userdetails)
+      
     }
   },
     }    

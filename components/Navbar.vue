@@ -23,8 +23,12 @@
           </nuxt-link>
           <nuxt-link to="/SignUp" v-if="!this.$store.state.Auth.user">Signup</nuxt-link>
           <!-- <nuxt-link to="/SignOut" >Log out</nuxt-link> -->
-          <button class="signout" v-if="this.$store.state.Auth.user" @click="logout">Signout</button>
           
+          <b-nav-item-dropdown text="User" dropleft v-if="this.$store.state.Auth.user">
+          <b-dropdown-item to="/Profile">Profile</b-dropdown-item>
+          <b-dropdown-item @click="logout">Signout</b-dropdown-item>
+          </b-nav-item-dropdown>
+
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
@@ -42,6 +46,12 @@ export default {
 }
 </script>
 <style scoped>
+.nav-link{
+    color: black!important;
+}
+ul{
+  overflow: inherit!important;
+}
 .navbar {
   background-color: yellow;
 }

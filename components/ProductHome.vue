@@ -34,6 +34,9 @@ computed:{
 }
 </script>
 <style>
+.nav-link{
+color: black!important;;
+}
 ul {
   list-style-type: none;
   margin: 0;

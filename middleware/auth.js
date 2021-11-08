@@ -1,4 +1,4 @@
-export default function ({store, route, redirect}){
+export default function ({app, route, redirect}){
   // if (route.path !== '/login') {
   //   //we are on a protected route
   //   // if(!app.$fire.auth.currentUser) {
@@ -20,9 +20,8 @@ export default function ({store, route, redirect}){
   //   }
   // }
   //console.log(route.path);
-  if(route.path == "/login" || route.path == "/SignUp"){
-    console.log(store.state.Auth.user)
-    if(store.state.Auth.user){
+  if(route.path === "/login" || route.path === "/SignUp"){
+    if(app.$fire.auth.currentUser){
       return redirect('/')
     }
   }

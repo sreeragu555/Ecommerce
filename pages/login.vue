@@ -28,6 +28,11 @@
       </b-form-group>
       <b-button type="submit" variant="primary">Submit</b-button>
     </b-form>
+    <div style="margin-top: 10px" v-if="errorcontent">
+          <b-alert show variant="danger" dismissible>
+            {{ this.errorcontent }}
+          </b-alert>
+        </div>
   </b-card>
 
 
@@ -39,6 +44,7 @@
 export default {
   data() {
     return {
+      errorcontent:'',
       auth: {
         email: '',
         password: ''
@@ -57,8 +63,8 @@ export default {
       //   //this.$store.commit("Auth/SET_USER",{uid,email});
         this.$router.push({path: "/"})
       })
-      .catch(function (error){
-        console.log(error.message);
+      .catch((error) => {
+        this.errorcontent = error.message; 
       })
     },
 
