@@ -25,7 +25,7 @@ computed:{
    if(this.$store.state.Product.products.length!=0)
    {
     this.noproductshow=false; 
-    return this.$store.getters['Product/getProduct'];
+    return {...this.$store.getters['Product/getProduct']};
    }
    else
     this.noproductshow=true;

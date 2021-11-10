@@ -101,14 +101,16 @@ export default {
       this.$fire.auth.createUserWithEmailAndPassword(this.auth.email, this.auth.password)
       .then((cred) => {
         //we are signed in
-              this.$fire.firestore.collection('Users').add({
+       // console.log("first in");
+              this.$fire.firestore.collection('Users').doc(cred.user.uid).set({
                 Name:this.auth.name,
-                Phone:this.auth.phone,
-                uid:cred.user.uid
+                Phone:this.auth.phone
               }).then((docRef) =>{
+                    //console.log("second in");
                 this.busy=false;
-              window.location.href ="/";
+              this.$router.push({path: "/"})
             }).catch((error)=>{
+                  //console.log("third in");
               this.busy=false;
                 console.log(error)
             })
@@ -116,7 +118,6 @@ export default {
       .catch((error) => {
         this.busy=false;
         this.errorcontent = error.message;
-        return ;
       })
     },
 

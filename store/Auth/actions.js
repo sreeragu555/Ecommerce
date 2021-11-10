@@ -6,26 +6,36 @@ export default {
 
       //redirect from here
       this.$router.push({
-        path: '/login',
+        path: '/',
       })
     } else {
       const { uid, email } = authUser
       //console.log(claims);
-      
-      await this.$fire.firestore.collection('Users').where("uid","==",uid).get().then(snapshot => {
-        snapshot.forEach(prod => {
-          state.commit('SET_USER', {
-            uid,
-            email,
-            claims,
-            Name:prod.data().Name,
-            Phone:prod.data().Phone
-          })   
+      //getcollectiondata(uid);
+      // await this.$fire.firestore.collection('Users').doc(uid).get().then(snapshot => {
+      //   console.log(snapshot.data())
+      //   snapshot.forEach(prod => {
+          // state.commit('SET_USER', {
+          //   uid,
+          //   email,
+          //   claims,
+          //   Name:prod.data().Name,
+          //   Phone:prod.data().Phone
+          // })   
           
-        })
-      });
+      //   })
+      // });
       //console.log(userdetails)
-      
+      state.commit('SET_USER', {
+            uid,
+           email,
+           claims,
+      })
     }
   },
+  // getcollectiondata(uid){
+  //    this.$fire.firestore.collection('Users').doc(uid).get().then(snapshot => {
+  //     console.log(snapshot.data())
+  //   });
+  // }
     }    
