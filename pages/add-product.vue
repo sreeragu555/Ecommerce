@@ -1,7 +1,7 @@
 <template>
   <div>
     <Navbar />
-    <div class="card2">
+    <div class="card2 toppos">
       <span class="elements">
         <label>Product Name</label>
         <input type="text" name="pname" v-model="name" />

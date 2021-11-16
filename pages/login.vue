@@ -1,7 +1,7 @@
 <template>
 <div>
 <Navbar/>
-<div class="mycenter">
+<div class="mycenter toppos">
 
 <b-card title="Login" class="text-center">
     <b-form @submit="login">

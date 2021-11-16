@@ -1,7 +1,7 @@
 <template>
 <div>
 <Navbar/>
-<div style="display:grid;place-items:center">
+<div style="display:grid;place-items:center" class="toppos">
 <b-card
        border-variant="primary"
         header="Cart"

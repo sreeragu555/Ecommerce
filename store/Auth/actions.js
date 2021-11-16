@@ -1,4 +1,5 @@
 export default {
+  
   async onAuthStateChangedAction(state, { authUser, claims }) {
     if (!authUser) {
       // remove state
@@ -9,6 +10,7 @@ export default {
         path: '/',
       })
     } else {
+      console.log(authUser);
       const { uid, email } = authUser
       //console.log(claims);
       //getcollectiondata(uid);

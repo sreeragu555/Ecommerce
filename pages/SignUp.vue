@@ -1,11 +1,11 @@
 <template>
   <div>
     <Navbar />
-    <div class="mycenter">
+    <div class="mycenter toppos">
       <b-card title="SignUp" class="text-center">
         <b-form>
           <b-form-group
-            id="input-group-2"
+            id="input-group-1"
             label="Your Name:"
             label-for="input-3"
           >
@@ -33,7 +33,7 @@
           </b-form-group>
 
           <b-form-group
-            id="input-group-2"
+            id="input-group-3"
             label="Your Phone number:"
             label-for="input-4"
           >
@@ -47,7 +47,7 @@
           </b-form-group>
 
           <b-form-group
-            id="input-group-2"
+            id="input-group-4"
             label="Your Password:"
             label-for="input-2"
           >
@@ -60,15 +60,16 @@
             ></b-form-input>
           </b-form-group>
           <b-overlay
-      :show="busy"
-      rounded
-      opacity="0.6"
-      spinner-small
-      spinner-variant="primary"
-      class="d-inline-block"
-    >
-          <b-button type="submit" @click="login" variant="primary"
-            >Submit</b-button>
+            :show="busy"
+            rounded
+            opacity="0.6"
+            spinner-small
+            spinner-variant="primary"
+            class="d-inline-block"
+          >
+            <b-button type="submit" @click="login" variant="primary"
+              >Submit</b-button
+            >
           </b-overlay>
         </b-form>
         <div style="margin-top: 10px" v-if="errorcontent">
@@ -85,43 +86,51 @@ export default {
   data() {
     return {
       auth: {
-        name:'',
-        phone:'',
+        name: '',
+        phone: '',
         email: '',
-        password: ''
+        password: '',
       },
-      busy:false,
-      errorcontent:''
+      busy: false,
+      errorcontent: '',
     }
-    },
+  },
   methods: {
     login(event) {
-      this.busy = true;
-       event.preventDefault();
-      this.$fire.auth.createUserWithEmailAndPassword(this.auth.email, this.auth.password)
-      .then((cred) => {
-        //we are signed in
-       // console.log("first in");
-              this.$fire.firestore.collection('Users').doc(cred.user.uid).set({
-                Name:this.auth.name,
-                Phone:this.auth.phone
-              }).then((docRef) =>{
-                    //console.log("second in");
-                this.busy=false;
-              this.$router.push({path: "/"})
-            }).catch((error)=>{
-                  //console.log("third in");
-              this.busy=false;
-                console.log(error)
+      this.busy = true
+      event.preventDefault()
+      this.$fire.auth
+        .createUserWithEmailAndPassword(this.auth.email, this.auth.password)
+        .then((cred) => {
+          cred.user.updateProfile({
+            displayName: this.auth.name,
+          })
+          //we are signed in
+          // console.log("first in");
+          this.$fire.firestore
+            .collection('Users')
+            .doc(cred.user.uid)
+            .set({
+              Phone: this.auth.phone,
+              Address:[]
             })
-      })
-      .catch((error) => {
-        this.busy=false;
-        this.errorcontent = error.message;
-      })
+            .then((docRef) => {
+              //console.log("second in");
+              this.$router.push({ path: '/' })
+              this.busy = false
+            })
+            .catch((error) => {
+              //console.log("third in");
+              this.busy = false
+              console.log(error)
+            })
+        })
+        .catch((error) => {
+          this.busy = false
+          this.errorcontent = error.message
+        })
     },
-
-}
+  },
 }
 </script>
 <style scoped>

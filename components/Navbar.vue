@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-navbar toggleable="lg" type="dark">
+    <b-navbar toggleable="lg" type="dark" fixed="top">
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-navbar-brand><nuxt-link to="/">Ecommerce</nuxt-link></b-navbar-brand>
       <b-collapse id="nav-collapse" is-nav>
@@ -55,6 +55,7 @@ ul{
 .navbar {
   background-color: yellow;
 }
+
 a {
   color: black;
   text-decoration: none;

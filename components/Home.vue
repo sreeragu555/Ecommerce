@@ -2,7 +2,7 @@
 <template>
 <div>
 <Navbar/>
-  <ul>
+  <ul class="toppos">
           <li v-for="item in getAllProducts" :key="item.index" >
              <ProductCard :name="item.Product_name" :imageurl="item.image" :amount="item.amount" :prodid="item.id"/>
           </li>
@@ -33,3 +33,9 @@ computed:{
 },
 }
 </script>
+<style>
+.toppos{
+  margin-top: 70px!important;
+}
+
+</style>
