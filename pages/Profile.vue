@@ -151,7 +151,8 @@
                 </b-card>
                 <div class="address">
                   <b-list-group v-if="this.Userobject.Address.length != 0">
-                    <div class="addresslists"
+                    <div
+                      class="addresslists"
                       v-for="item in this.Userobject.Address"
                       :key="item.index"
                     >
@@ -252,16 +253,10 @@ export default {
       this.$router.push({ path: '/' })
     },
     AddAddressToDB(event) {
-      event.preventDefault();
-      this.busy=true;
-      // let testarray=[];
-      // for(let i=0;i<this.Userobject.Address.length;i++)
-      // {
-      //     testarray = [{...this.Userobject.Address[i]}];
-      // }
-      // testarray=[{...this.Address}];
-      //console.log(testarray);
-      let Addfinal = [this.Userobject.Address[0], this.Address]
+      event.preventDefault()
+      this.busy = true
+      let Addfinal = this.Userobject.Address
+      Addfinal = Addfinal.concat(this.Address)
       this.$fire.firestore
         .collection('Users')
         .doc(this.Userobject.authUser.uid)
@@ -272,13 +267,13 @@ export default {
         .then((users) => {
           console.log('success')
           this.GetAddressfromDB(this.Userobject.authUser)
-          this.busy=false;
+          this.busy = false
+          this.resetAddressForm()
           this.AddAddressToggle()
         })
         .catch((error) => {
           console.log(error)
         })
-      console.log(Addfinal)
     },
     GetAddressfromDB(authUser) {
       this.$fire.firestore
@@ -290,6 +285,16 @@ export default {
 
           //console.log(this.Userobject.Address.length)
         })
+    },
+    resetAddressForm() {
+      this.Address.Name = ''
+      this.Address.AddressLine1 = ''
+      this.Address.AddressLine2 = ''
+      this.Address.City = ''
+      this.Address.State = ''
+      this.Address.PostalCode = ''
+      this.Address.Country = ''
+      this.Address.Mobilenumber = ''
     },
   },
 
@@ -341,7 +346,7 @@ export default {
 .dropdown-item {
   width: 174% !important;
 }
-.addresslists{
-  margin:5px;
+.addresslists {
+  margin: 5px;
 }
 </style>
