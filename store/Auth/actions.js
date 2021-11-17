@@ -10,7 +10,7 @@ export default {
         path: '/',
       })
     } else {
-      console.log(authUser);
+      //console.log(authUser);
       const { uid, email } = authUser
       //console.log(claims);
       //getcollectiondata(uid);

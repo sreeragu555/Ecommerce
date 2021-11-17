@@ -2,7 +2,7 @@
   <div>
     <div v-if="Userobject">
       <Navbar />
-      <div class="profile-nav toppos" >
+      <div class="profile-nav toppos">
         <div class="profile">
           <b-avatar size="7rem"></b-avatar>
           <p class="name-text">{{ this.Userobject.authUser.displayName }}</p>
@@ -18,8 +18,16 @@
               <b-tab title="Orders"
                 ><p class="name-text">You have not placed any orders!</p></b-tab
               >
-              <b-tab title="Saved Address">
-                <div v-if="!addaddress" class="plus-address" @click="AddAddressToggle"><span style="font-size:1.5rem"><b-icon icon="plus"></b-icon></span>Add new Address</div>
+              <b-tab title="Manage Address">
+                <div
+                  v-if="!addaddress"
+                  class="plus-address"
+                  @click="AddAddressToggle"
+                >
+                  <span style="font-size: 1.5rem"
+                    ><b-icon icon="plus"></b-icon></span
+                  >Add new Address
+                </div>
                 <b-card title="Address" v-if="addaddress" class="text-center">
                   <b-form>
                     <b-form-group
@@ -30,6 +38,7 @@
                       <b-form-input
                         id="input-1"
                         type="text"
+                        v-model="Address.Name"
                         placeholder="Full Name"
                         required
                       ></b-form-input>
@@ -42,6 +51,7 @@
                       <b-form-input
                         id="input-2"
                         type="text"
+                        v-model="Address.AddressLine1"
                         placeholder="Address Line 1"
                         required
                       ></b-form-input>
@@ -54,6 +64,7 @@
                       <b-form-input
                         id="input-3"
                         type="text"
+                        v-model="Address.AddressLine2"
                         placeholder="Address Line 2"
                       ></b-form-input>
                     </b-form-group>
@@ -65,6 +76,7 @@
                       <b-form-input
                         id="input-4"
                         type="text"
+                        v-model="Address.City"
                         placeholder="City/Town"
                       ></b-form-input>
                     </b-form-group>
@@ -72,6 +84,7 @@
                       <label for="state-list">State</label>
                       <b-form-input
                         list="input-list"
+                        v-model="Address.State"
                         id="state-list"
                       ></b-form-input>
                       <b-form-datalist
@@ -87,6 +100,7 @@
                       <b-form-input
                         id="input-6"
                         type="text"
+                        v-model="Address.PostalCode"
                         placeholder="Postal Code"
                       ></b-form-input>
                     </b-form-group>
@@ -94,6 +108,7 @@
                       <label for="Country-list">Country</label>
                       <b-form-input
                         list="c-list"
+                        v-model="Address.Country"
                         id="Country-list"
                       ></b-form-input>
                       <b-form-datalist
@@ -109,21 +124,83 @@
                       <b-form-input
                         id="input-7"
                         type="text"
+                        v-model="Address.Mobilenumber"
                         placeholder="Phone number"
                         required
                       ></b-form-input>
                     </b-form-group>
-                    <b-button type="submit" @click="AddAddressToDB" variant="primary">Save</b-button>
-                    <b-button variant="danger" @click="AddAddressToggle">Cancel</b-button>
+                    <b-overlay
+                      :show="busy"
+                      rounded
+                      opacity="0.6"
+                      spinner-small
+                      spinner-variant="primary"
+                      class="d-inline-block"
+                    >
+                      <b-button
+                        type="submit"
+                        @click="AddAddressToDB"
+                        variant="primary"
+                        >Save</b-button
+                      >
+                    </b-overlay>
+                    <b-button variant="danger" @click="AddAddressToggle"
+                      >Cancel</b-button
+                    >
                   </b-form>
                 </b-card>
                 <div class="address">
-                  <b-list-group v-if="this.Userobject.Address.length!=0">
-                      <b-list-group-item class="addresslist" href="#">
-                        {{this.Userobject.Address[0].FirstName}}
+                  <b-list-group v-if="this.Userobject.Address.length != 0">
+                    <div class="addresslists"
+                      v-for="item in this.Userobject.Address"
+                      :key="item.index"
+                    >
+                      <b-list-group-item
+                        href="#"
+                        class="flex-column align-items-start"
+                      >
+                        <div class="d-flex w-100 justify-content-between">
+                          <h5 class="mb-1">
+                            {{ item.Name }}&nbsp;&nbsp;&nbsp;&nbsp;{{
+                              item.Mobilenumber
+                            }}
+                          </h5>
+                          <small class="text-muted"
+                            ><b-dropdown variant="Light" class="dropdownitem">
+                              <template #button-content>
+                                <b-icon
+                                  icon="three-dots-vertical"
+                                  aria-hidden="true"
+                                ></b-icon>
+                              </template>
+                              <b-dropdown-item-button
+                                class="dropdownitem"
+                                aria-describedby="dropdown-header-label"
+                              >
+                                Edit
+                              </b-dropdown-item-button>
+                              <b-dropdown-item-button
+                                class="dropdownitem"
+                                aria-describedby="dropdown-header-label"
+                              >
+                                Remove
+                              </b-dropdown-item-button>
+                            </b-dropdown>
+                          </small>
+                        </div>
+
+                        <p class="addresslist">
+                          {{ item.AddressLine1 }}
+                          {{ item.AddressLine2 }}
+                          {{ item.State }} -
+                          {{ item.PostalCode }}
+                        </p>
                       </b-list-group-item>
+                    </div>
                   </b-list-group>
-                  <span v-if="this.Userobject.Address.length==0">You haven't saved any address</span>
+                  <span v-if="this.Userobject.Address.length == 0"
+                    >You haven't saved any address</span
+                  >
                 </div>
               </b-tab>
               <b-tab title="Settings"><p>Its cooking wait......</p></b-tab>
@@ -132,55 +209,6 @@
           </b-card>
         </div>
       </div>
-      <!-- <div>
-        <b-tabs pills card vertical class="mycol-auto">
-          <b-tab title="Profile" active
-            ><b-card-text>
-              <b-card header-tag="header" footer-tag="footer">
-                <template #header>
-                  <h6 class="mb-0">Profile</h6>
-                </template>
-                <b-card-text
-                  >Name {{ this.Userobject.authUser.displayName }}</b-card-text
-                >
-                <b-button href="#" variant="primary">Go somewhere</b-button>
-                <template #footer>
-                  <em>Footer Slot</em>
-                </template>
-              </b-card>
-            </b-card-text></b-tab
-          >
-          <b-tab title="Address"
-            ><b-card-text>Tab contents 2</b-card-text></b-tab
-          >
-          <b-tab title="Tab 3"><b-card-text>Tab contents 3</b-card-text></b-tab>
-        </b-tabs>
-      </div> -->
-      <!-- <div class="parent">
-        <div class="sidebar">
-          <b-list-group>
-            <b-list-group-item>Cras justo odio</b-list-group-item>
-            <b-list-group-item>Dapibus ac facilisis in</b-list-group-item>
-            <b-list-group-item>Morbi leo risus</b-list-group-item>
-            <b-list-group-item>Porta ac consectetur ac</b-list-group-item>
-            <b-list-group-item>Vestibulum at eros</b-list-group-item>
-          </b-list-group>
-        </div>
-        <p class="flex-item content">
-          <b-card header-tag="header" footer-tag="footer">
-            <template #header>
-              <h6 class="mb-0">Profile</h6>
-            </template>
-            <b-card-text
-              >Name {{ this.Userobject.authUser.displayName }}</b-card-text
-            >
-            <b-button href="#" variant="primary">Go somewhere</b-button>
-            <template #footer>
-              <em>Footer Slot</em>
-            </template>
-          </b-card>
-        </p>
-      </div> -->
     </div>
 
     <div v-if="!Userobject">
@@ -196,51 +224,84 @@ export default {
   mixins: [global],
   data() {
     return {
+      busy: false,
       Userobject: null,
       Statelist: ['Kerala', 'TamilNadu', 'Karnataka'],
       Countrylist: ['India', 'USA', 'UK', 'UAE'],
-      addaddress:false
+      addaddress: false,
+      Address: {
+        Name: '',
+        AddressLine1: '',
+        AddressLine2: '',
+        City: '',
+        State: '',
+        PostalCode: '',
+        Country: '',
+        Mobilenumber: '',
+      },
     }
   },
-  methods:{
-    AddAddressToggle(){
-      this.addaddress = !this.addaddress;
+  methods: {
+    AddAddressToggle() {
+      this.addaddress = !this.addaddress
     },
-    logout(){
-      this.$fire.auth.signOut();
+    logout() {
+      this.$fire.auth.signOut()
       //console.log("done");
-      this.$store.commit("Auth/SET_USER",null);
-      this.$router.push({path: "/"})
+      this.$store.commit('Auth/SET_USER', null)
+      this.$router.push({ path: '/' })
     },
-    AddAddressToDB(){
-      
-    }
-  },
-  created() {
-    this.$fire.auth.onAuthStateChanged((authUser) => {
+    AddAddressToDB(event) {
+      event.preventDefault();
+      this.busy=true;
+      // let testarray=[];
+      // for(let i=0;i<this.Userobject.Address.length;i++)
+      // {
+      //     testarray = [{...this.Userobject.Address[i]}];
+      // }
+      // testarray=[{...this.Address}];
+      //console.log(testarray);
+      let Addfinal = [this.Userobject.Address[0], this.Address]
+      this.$fire.firestore
+        .collection('Users')
+        .doc(this.Userobject.authUser.uid)
+        .set({
+          Phone: this.Userobject.Phone,
+          Address: Addfinal,
+        })
+        .then((users) => {
+          console.log('success')
+          this.GetAddressfromDB(this.Userobject.authUser)
+          this.busy=false;
+          this.AddAddressToggle()
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+      console.log(Addfinal)
+    },
+    GetAddressfromDB(authUser) {
       this.$fire.firestore
         .collection('Users')
         .doc(authUser.uid)
         .get()
         .then((snapshot) => {
-          this.Userobject = { ...snapshot.data(), authUser };
-          
-          console.log(this.Userobject.Address.length)
+          this.Userobject = { ...snapshot.data(), authUser }
+
+          //console.log(this.Userobject.Address.length)
         })
+    },
+  },
+
+  created() {
+    this.$fire.auth.onAuthStateChanged((authUser) => {
+      this.GetAddressfromDB(authUser)
     })
   },
 }
 </script>
 
 <style>
-/* .nav-pills .nav-link.active,
-.nav-pills .show > .nav-link {
-  background: rgb(219, 214, 214);
-  border-style: inset;
-}
-.mycol-auto {
-  margin: 50px !important;
-} */
 .card {
   max-width: 100% !important;
 }
@@ -261,17 +322,26 @@ export default {
 .customnav {
   width: 100%;
 }
-.plus-address{
+.plus-address {
   cursor: pointer;
   text-align: left;
-  border:1px solid black; 
-  padding:5px;
+  border: 1px solid black;
+  padding: 5px;
   text-transform: uppercase;
 }
-.addresslist{
+.addresslist {
   text-align: left;
 }
-.address{
+.address {
   margin-top: 10px;
+}
+.dropdown-menu {
+  min-width: 0rem !important;
+}
+.dropdown-item {
+  width: 174% !important;
+}
+.addresslists{
+  margin:5px;
 }
 </style>
