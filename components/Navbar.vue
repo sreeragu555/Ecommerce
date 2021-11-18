@@ -66,4 +66,10 @@ a {
   background: transparent;
 
 }
+.dropdown-menu {
+  min-width: 0rem !important;
+}
+.dropdown-item {
+  width: 174% !important;
+}
 </style>

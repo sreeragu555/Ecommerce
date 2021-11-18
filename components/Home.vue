@@ -4,7 +4,7 @@
 <Navbar/>
   <ul class="toppos">
           <li v-for="item in getAllProducts" :key="item.index" >
-             <ProductCard :name="item.Product_name" :imageurl="item.image" :amount="item.amount" :prodid="item.id"/>
+             <ProductCard :name="item.Product_name" :existInCart="item.existInCart" :imageurl="item.image" :amount="item.amount" :prodid="item.id"/>
           </li>
       </ul>
           <div v-if="noproductshow">

@@ -156,47 +156,14 @@
                       v-for="item in this.Userobject.Address"
                       :key="item.index"
                     >
-                      <b-list-group-item
-                        href="#"
-                        class="flex-column align-items-start"
-                      >
-                        <div class="d-flex w-100 justify-content-between">
-                          <h5 class="mb-1">
-                            {{ item.Name }}&nbsp;&nbsp;&nbsp;&nbsp;{{
-                              item.Mobilenumber
-                            }}
-                          </h5>
-                          <small class="text-muted"
-                            ><b-dropdown variant="Light" class="dropdownitem">
-                              <template #button-content>
-                                <b-icon
-                                  icon="three-dots-vertical"
-                                  aria-hidden="true"
-                                ></b-icon>
-                              </template>
-                              <b-dropdown-item-button
-                                class="dropdownitem"
-                                aria-describedby="dropdown-header-label"
-                              >
-                                Edit
-                              </b-dropdown-item-button>
-                              <b-dropdown-item-button
-                                class="dropdownitem"
-                                aria-describedby="dropdown-header-label"
-                              >
-                                Remove
-                              </b-dropdown-item-button>
-                            </b-dropdown>
-                          </small>
-                        </div>
-
-                        <p class="addresslist">
-                          {{ item.AddressLine1 }}
-                          {{ item.AddressLine2 }}
-                          {{ item.State }} -
-                          {{ item.PostalCode }}
-                        </p>
-                      </b-list-group-item>
+                      <Address v-if="!editaddress" :Name="item.Name"
+                        :AddressLine1="item.AddressLine1"
+                        :AddressLine2="item.AddressLine2"
+                        :City="item.City"
+                        :State="item.State"
+                        :PostalCode="item.PostalCode"
+                        :Country="item.Country"
+                        :Mobilenumber="item.Mobilenumber"/>                      
                     </div>
                   </b-list-group>
                   <span v-if="this.Userobject.Address.length == 0"
@@ -302,6 +269,7 @@ export default {
     this.$fire.auth.onAuthStateChanged((authUser) => {
       this.GetAddressfromDB(authUser)
     })
+   
   },
 }
 </script>
