@@ -153,17 +153,20 @@
                   <b-list-group v-if="this.Userobject.Address.length != 0">
                     <div
                       class="addresslists"
-                      v-for="item in this.Userobject.Address"
-                      :key="item.index"
+                      v-for="(item,index) in this.Userobject.Address"
+                      :key="index"
                     >
-                      <Address v-if="!editaddress" :Name="item.Name"
+                      <Address :Name="item.Name"
                         :AddressLine1="item.AddressLine1"
                         :AddressLine2="item.AddressLine2"
                         :City="item.City"
                         :State="item.State"
                         :PostalCode="item.PostalCode"
                         :Country="item.Country"
-                        :Mobilenumber="item.Mobilenumber"/>                      
+                        :Mobilenumber="item.Mobilenumber"
+                        :indexvalue="index"
+                        :UserObject="Userobject"
+                        @Updateaddress="GetAddressfromDB"/>                      
                     </div>
                   </b-list-group>
                   <span v-if="this.Userobject.Address.length == 0"
@@ -227,8 +230,7 @@ export default {
       this.$fire.firestore
         .collection('Users')
         .doc(this.Userobject.authUser.uid)
-        .set({
-          Phone: this.Userobject.Phone,
+        .update({
           Address: Addfinal,
         })
         .then((users) => {

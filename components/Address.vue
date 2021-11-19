@@ -52,6 +52,8 @@
                         :PostalCode="PostalCode"
                         :Country="Country"
                         :Mobilenumber="Mobilenumber"
+                        :UserObject="UserObject"
+                        :indexvalue="indexvalue"
                         @ToggleEditAddress="Toggleedit"
                       />
                       </div>
@@ -67,6 +69,9 @@ export default {
     PostalCode: { type: String },
     Country: { type: String },
     Mobilenumber: { type: String },
+    UserObject:{type: Object},
+    indexvalue:{type:Number},
+    Updateaddress:{ type: Function }
   },
   data(){
       return{
@@ -74,7 +79,10 @@ export default {
       }
   },
   methods:{
-      Toggleedit(){
+      Toggleedit(isUpdated){
+        if(isUpdated){
+          this.$emit('Updateaddress',this.UserObject.authUser);
+        }
           this.editaddress = !this.editaddress;
       }
   }
